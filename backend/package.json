@@ -1,0 +1,25 @@
+{
+  "name": "greeting-service-node-express-app",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Simple application to send greetings to the users on their birthdays",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Goutham",
+  "license": "ISC",
+  "dependencies": {
+    "base64-img": "^1.0.4",
+    "csv-parser": "^3.0.0",
+    "datauri": "^4.1.0",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "mongodb": "^5.6.0",
+    "mongoose": "^7.3.1",
+    "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.2",
+    "nodemailer": "^6.9.3",
+    "path": "^0.12.7"
+  }
+}
