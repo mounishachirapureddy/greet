@@ -176,7 +176,7 @@
                     type="file"
                     accept=".jpg, .jpeg, .png"
                     onChange={(e) => handleTempleBannerChange(e, 0)}
-                  required1
+                  required
                   />
                 </div>
                 <div className="file-input-group">
@@ -186,7 +186,7 @@
                     type="file"
                     accept=".jpg, .jpeg, .png"
                     onChange={(e) => handleTempleImageChange(e, 0)}
-                  required1
+                  required
                   />
                 </div>
                 <div className="file-input-group">
@@ -196,7 +196,7 @@
                     type="text"
                     value={templeDescription}
                     onChange={handleTempleDescriptionChange}
-                  required1
+                  required
                   />
                 </div>  
                 <div className="file-input-group">
@@ -206,7 +206,7 @@
                     type="text"
                     value={address}
                     onChange={handleAddressChange}
-                  required1
+                  required
                   />
                 </div>
                 <div className="file-input-group">
@@ -216,7 +216,7 @@
                     type="text"
                     value={taxId}
                     onChange={handleTaxIdChange}
-                  required1
+                  required
                   />
                 </div>
                 <div className="file-input-group">
@@ -226,7 +226,7 @@
                     type="number"
                     value={phone}
                     onChange={handlePhoneChange}
-                  required1
+                  required
                   />
                 </div>
                 <div className="file-input-group">
@@ -236,7 +236,7 @@
                     type="number"
                     value={fax}
                     onChange={handleFaxChange}
-                  required1
+                  required
                   />
                 </div> 
               </div>
@@ -249,7 +249,7 @@
                     type="text"
                     value={websiteUrl}
                     onChange={handleWebsiteUrlChange}
-                  required1
+                  required
                   />
                   </div>
                   <div className="file-input-group">
@@ -259,7 +259,7 @@
                   type="file"
                   accept="image/*"
                   onChange={handlePaypalQrCodeChange}
-                required1
+                required
                 />
               </div>
               <div className="file-input-group">
@@ -269,7 +269,7 @@
                   type="file"
                   accept="image/*"
                   onChange={handleZelleQrCodeChange}
-                required1
+                required
                 />
               </div>
               <div className="file-input-group">
@@ -279,7 +279,7 @@
                   type="text"
                   value={facebookUrl}
                   onChange={handleFacebookUrlChange}
-                required1
+                required
                 />
               </div>
               <div className="file-input-group">
@@ -289,7 +289,7 @@
                   type="text"
                   value={twitterUrl}
                   onChange={handleTwitterUrlChange}
-                required1
+                required
                 />
               </div>
               <div className="file-input-group">
@@ -299,7 +299,7 @@
                   type="text"
                   value={instagramUrl}
                   onChange={handleInstagramUrlChange}
-                required1
+                required
                 />
               </div>
               </div>
@@ -316,7 +316,7 @@
                   type="file"
                   accept=".jpg, .jpeg, .png"
                   onChange={(e) => handleDeityImageFileChange(e, 0)}    
-                required1   
+                required   
                   /></div>
                   <div className="file-input-group">
                   <label>Upload Priest Image</label>
@@ -325,7 +325,7 @@
                   type="file"
                   accept=".jpg, .jpeg, .png"
                   onChange={(e) => handlePriestImageFileChange(e, 0)}  
-                required1                     
+                required                     
                   /></div>
                   <div className="file-input-group">
                   <label>Upload Chanting</label>
@@ -334,7 +334,7 @@
                     type="file"
                     accept=".mp3, audio/*"
                     onChange={(e) => handleAudioFileChange(e, 0)}
-                  required1
+                  required
                   />
                   </div>
                   <div className="file-input-group">
@@ -344,7 +344,7 @@
                     type="file"
                     accept=".csv"
                     onChange={handleCsvFileChange}
-                  required1
+                  required
                   />
                 </div>                     
               </div>
