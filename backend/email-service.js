@@ -72,27 +72,34 @@ async function sendBirthdayGreetings(user) {
     }`
     
     const template = JSON.parse(templateJSON);
+    if(fs.existsSync(paypalPath)){
+      console.log("the path exists")
+
+    }
+    else{
+      console.log("no the path is not there")
+    }
 
       //Send email
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       auth: {
-        user: 'email_address',
-        pass: 'password'
+        user: 'nallabiruduvenkat@gmail.com',
+        pass: 'bwsq whzu pqah telm'
       }
     });
     const mailOptions = {
-      from: "email_address",
+      from: "nallabiruduvenkat@gmail.com",
       to: user.email,
       subject: "Happy Birthday!",
       html: createEmailContent(template),
 
       attachments:[  
         {filename: imageDirPath, path: imageName, cid: 'birthday_wishes',  contentDisposition: 'inline',},  
-        {filename: templeBanner.originalname, path: template.templeBanner, cid: 'templeBanner', contentDisposition: 'inline',},
-        {filename: templeImage.originalname, path: template.templeImage, cid: 'templeImage',  contentDisposition: 'inline',},
-        {filename: paypal.originalname, path: template.paypalQrCode, cid: 'paypal',  contentDisposition: 'inline',},
-        {filename: zelle.originalname, path: template.zelleQrCode, cid: 'zelle',  contentDisposition: 'inline',},         
+       // {filename: templeBanner.originalname, path: template.templeBanner, cid: 'templeBanner', contentDisposition: 'inline',},
+       // {filename: templeImage.originalname, path: template.templeImage, cid: 'templeImage',  contentDisposition: 'inline',},
+        //{filename: paypal.originalname, path: template.paypalQrCode, cid: 'paypal',  contentDisposition: 'inline',},
+        //{filename: zelle.originalname, path: template.zelleQrCode, cid: 'zelle',  contentDisposition: 'inline',},         
         {filename: facebookDirPath, path: facebookName, cid: 'facebook',  contentDisposition: 'inline',},
         {filename: twitterDirPath, path: twitterName, cid: 'twitter',  contentDisposition: 'inline',},
         {filename: instagramDirPath, path: instagramName, cid: 'instagram',  contentDisposition: 'inline',},

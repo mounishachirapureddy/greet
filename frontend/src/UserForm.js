@@ -124,7 +124,7 @@
       formData.append("twitterUrl", twitterUrl);
       formData.append("instagramUrl", instagramUrl);
 
-      fetch("/api/temple-details", {
+      fetch("http://localhost:3009/api/temple-details", {
         method: "POST",
         body: formData,
       })
@@ -135,7 +135,8 @@
         })
         .catch((error) => {
           // Handle any errors that occur during the upload process
-          console.error("Error:", error);
+         // console.error({"Error": error})
+         console.error(error)
         });     
         // Clear the form fields by setting their values to an empty string
         setCsvFile(null);

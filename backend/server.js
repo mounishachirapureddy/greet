@@ -6,10 +6,12 @@ import csv from 'csv-parser';
 import mongoose from 'mongoose';
 import { MongoClient } from "mongodb";
 import path from 'path';
+import { retrieveUsersWithBirthday } from './user-service.js';
+import cron from "node-cron"
 
 
 const app = express();
-app.use(json());
+app.use(express.json());
 
 const uploadsDir = './uploads/';
         if (!fs.existsSync(uploadsDir)) {
@@ -71,10 +73,12 @@ async function startServer() {
       { name: 'phone', maxCount: 1 },
       { name: 'fax', maxCount: 1 },
       { name: 'templeDescription', maxCount: 1 },
+      
       { name: 'websiteUrl', maxCount: 1 },
       { name: 'facebookUrl', maxCount: 1 },
       { name: 'twitterUrl', maxCount: 1 },
       { name: 'instagramUrl', maxCount: 1 },
+      
     ]), async (req, res) => {      
         //Access the uploaded files through req.files
 
@@ -98,16 +102,20 @@ async function startServer() {
         const audioFile = req.files.audioFile[0];
         const templeBanner = req.files.templeBanner[0];
         const templeImage = req.files.templeImage[0];
+        
 
         const address = req.body.address;
+        
         const taxId = req.body.taxId;
         const phone = req.body.phone;
         const fax = req.body.fax;
         const templeDescription = req.body.templeDescription;
+        
         const websiteUrl = req.body.websiteUrl;
         const facebookUrl = req.body.facebookUrl;
         const twitterUrl = req.body.twitterUrl;
         const instagramUrl = req.body.instagramUrl;
+        
 
         const DataModel = mongoose.model('data', dataSchema);
         
@@ -117,10 +125,12 @@ async function startServer() {
           phone,
           fax,
           templeDescription,
+          
           websiteUrl,
           facebookUrl,
           twitterUrl,
           instagramUrl,
+          
         });
 
         // Print the information present in the newData object
@@ -139,14 +149,33 @@ async function startServer() {
 
       // Add PayPal QR code image details to the fileDetails array
       const paypalQrCodeDetails = {
-        filename: paypalQrCode.filename,
+        filename: paypalQrCode.originalname,
         originalname: paypalQrCode.originalname,
-        path: paypalQrCode.path,
+        //path: paypalQrCode.path,
+        path:paypalQrCode.path,
         mimetype: paypalQrCode.mimetype,
+        
       };
-      templeFiles.push(paypalQrCodeDetails);
 
-      const paypalQrCodeFilePath = './temple_files/' + (paypalQrCode.originalname);      
+      paypalQrCodeDetails.path='uploads\\'+paypalQrCodeDetails.originalname
+      var image_push=()=>{
+        try{
+          var image=fs.readFileSync(paypalQrCodeDetails.path)
+          return image;
+
+        }
+        catch(error){
+          console.log("error got")
+          return error;
+        }
+
+      }
+      paypalQrCodeDetails.data=image_push();
+      templeFiles.push(paypalQrCodeDetails);
+      //upload.push(paypalQrCodeDetails)
+
+      //const paypalQrCodeFilePath = './temple_files/' + (paypalQrCode.originalname);  
+      const paypalQrCodeFilePath = './uploads/' + (paypalQrCodeDetails.originalname)    
       fs.renameSync(paypalQrCode.path, paypalQrCodeFilePath);
 
       // Add Zelle QR code image details to the fileDetails array
@@ -156,9 +185,13 @@ async function startServer() {
         path: zelleQrCode.path,
         mimetype: zelleQrCode.mimetype,
       };
+      zelleQrCodeDetails.path='uploads\\'+zelleQrCodeDetails.originalname
       templeFiles.push(zelleQrCodeDetails);
+      //zelleQrCodeDetails.path='uploads\\'+zelleQrCodeDetails.originalname
+      //upload.push(zelleQrCodeDetails)
 
-      const zelleQrCodeFilePath = './temple_files/' + (zelleQrCode.originalname);      
+      //const zelleQrCodeFilePath = './temple_files/' + (zelleQrCode.originalname); 
+      const zelleQrCodeFilePath = './uploads/' + (zelleQrCodeDetails.originalname)     
       fs.renameSync(zelleQrCode.path, zelleQrCodeFilePath);
       
       const templeBannerDetails = {
@@ -167,9 +200,12 @@ async function startServer() {
         path: templeBanner.path,
         mimetype: templeBanner.mimetype,
       };
+      templeBannerDetails.path='uploads\\'+templeBannerDetails.originalname
       templeFiles.push(templeBannerDetails);
+      //templeBannerDetails.path='uploads\\'+templeBannerDetails.originalname
+      //upload.push(templeBannerDetails)
 
-      const templeBannerFilePath = './temple_files/' + (templeBanner.originalname);      
+      const templeBannerFilePath = './uploads/' + (templeBannerDetails.originalname);      
       fs.renameSync(templeBanner.path, templeBannerFilePath);
 
       const templeImageDetails = {
@@ -178,9 +214,12 @@ async function startServer() {
         path: templeImage.path,
         mimetype: templeImage.mimetype,
       };
+      templeImageDetails.path='uploads\\'+templeImageDetails.originalname
       templeFiles.push(templeImageDetails);
+      //templeImageDetails.path='uploads\\'+templeImageDetails.originalname
+      console.log(templeImage.path)
 
-      const templeImageFilePath = './temple_files/' + (templeImage.originalname);      
+      const templeImageFilePath = './uploads/' + (templeImageDetails.originalname);      
       fs.renameSync(templeImage.path, templeImageFilePath);
 
       // Create a new collection for storing file details
@@ -251,15 +290,25 @@ async function startServer() {
             // Process the uploaded CSV file and assign field names to the data
             const processedData = results.map((user) => {
                 // Parse the birthdate string to a JavaScript Date object
-            const birthdateParts = user.birthdate.split('/'); // Assuming the format is "MM/DD/YYYY"
-            const birthdate = new Date(birthdateParts[2], birthdateParts[0] - 1, birthdateParts[1]);
+                const birthdateParts = user.birthdate.split('-'); // Assuming the format is "MM/DD/YYYY"
+            const year=parseInt(birthdateParts[2]);
+            var day_=parseInt(birthdateParts[0])
+            var month_=parseInt(birthdateParts[1])-1
+            console.log(year,month_,day_)
+            //console.log(birthdateParts)
+            const birthdate = new Date(Date.UTC(year,month_,day_));
+            const Birthdate=birthdate.toLocaleDateString("en-IN")
+            console.log("this is Birthday",Birthdate)
+            /*const birthdateParts = user.birthdate.split('/'); // Assuming the format is "MM/DD/YYYY"
+            const BirthdateParts=['19','10','2023']
+            const birthdate = new Date(BirthdateParts[2], BirthdateParts[0] - 1, BirthdateParts[1]);*/
 
                 return {
                 first_name: user.first_name,
                 last_name: user.last_name,
                 email: user.email,
                 contact: user.contact,
-                birthdate: birthdate,
+                birthdate: Birthdate,
                 };
             });
 
@@ -287,6 +336,15 @@ async function startServer() {
               console.error('Error parsing CSV file:', error);
               res.status(500).json({ error: 'Error parsing CSV file' });
             });
+            cron.schedule("05 10 * * *", () => {
+              console.log("Running retrieveUsersWithBirthday...");
+              retrieveUsersWithBirthday()
+                .catch((error) => {
+                  console.error("Error retrieving users:", error);
+                });
+            });
+
+            //await retrieveUsersWithBirthday();
       });
     
       app.post('/api/editor-form', upload.fields([
@@ -314,18 +372,33 @@ async function startServer() {
         const result = videoCollection.insertOne(uploadedVideoFileDetails);
         res.json({ message: 'File uploaded successfully' });
     })
-
+       //console.log(uploadedVideoFileDetails)
         app.get('/api/getVideo', (req, res) => {
-          const videoPath = path.join('C:/Users/Goutham/Desktop/Project/GreetingService/backend', 'greetings_video', 'Greetings.mp4'); // Adjust the video filename as needed
+        const videoPath = path.join("C:/Users/Karthik/OneDrive/Documents/","messengerService/backend/","greetings_video/Greetings.mp4")//path.join('C:/Users/Karthik/OneDrive/Documents/CV_projectrecording_PRASANNA KARTHIK.wmv', 'greetings_video', 'Greetings.mp4'); // Adjust the video filename as needed
           res.sendFile(videoPath);
         });
 
-        const PORT = 3001;
+        const PORT = 3009;
         app.listen(PORT, () => {
           console.log(`Server is running on port ${PORT}`);
         });
       } catch (error) {
         console.error('Error connecting to MongoDB:', error);
       }
+      app.post('/api/schedule',(req,res)=>{
+        var b=req.body.minutes;
+        var a=req.body.hour;
+        const cron_schedule=`0 ${b} ${a} * * *` 
+        cron.schedule(cron_schedule, () => {
+          console.log("Running retrieveUsersWithBirthday...");
+          retrieveUsersWithBirthday()
+            .catch((error) => {
+              console.error("Error retrieving users:", error);
+            });
+            res.send('timer set')
+        });
+
+      }).listen(3007)
+
 }
 startServer();

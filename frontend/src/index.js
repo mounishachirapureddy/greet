@@ -6,6 +6,7 @@ import UserDetails from './UserForm';
 import VideoPage from './VideoPage';
 import EditorForm from './EditorForm';
 import NotFound from './NotFound';
+import NewUserFormLatest from './NewUserFormLates';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,6 +16,7 @@ ReactDOM.render(
         <Route path="/video-page" element={<VideoPage/>} />
         <Route path="/editor-form" element={<EditorForm/>} />
         <Route path="/not-found" element={<NotFound/>} />
+        <Route path="/New-User" element={<NewUserFormLatest/>}/>
       </Routes>
     </Router>
   </React.StrictMode>,
