@@ -1,0 +1,21 @@
+# Stage 1: Build the application
+FROM node:latest AS builder
+ENV NODE_ENV=development
+WORKDIR /usr/src/app
+COPY ["package.json", "package-lock.json*", "./"]
+RUN npm install
+COPY . .
+EXPOSE 3000
+RUN npm run build
+
+# Stage 2: Create a smaller image for production
+FROM node:latest AS app
+ENV NODE_ENV=development
+WORKDIR /messengerservice/backend
+#COPY --from=builder /messengerservice/frontend/build ./frontend/build
+COPY ["package.json", "package-lock.json*", "./"]
+RUN npm install 
+COPY . .
+EXPOSE 3009
+CMD ["npm", "start"]
+

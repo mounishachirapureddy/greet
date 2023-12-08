@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: custom-management-service
+  labels:
+    app: custom-management-service
+    service: custom-management-service
+spec:
+  selector:
+    app: custom-management-service
+  ports:
+    - port: 3009
+      name: http
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: custom-management-serviceaccount
+  labels:
+    account: custom-management-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: custom-management-deployment
+  labels:
+    app: custom-management-service
+    version: v1
+spec:
+  replicas: 1  # Number of desired replicas
+  selector:
+    matchLabels:
+      app: custom-management-service
+      version: v1
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9080"
+        prometheus.io/path: "/metrics"
+      labels:
+        app: custom-management-service
+        version: v1
+    spec:
+      serviceAccountName: custom-management-serviceaccount
+      containers:
+        - name: custom-management
+          image: 083118395813.dkr.ecr.ap-south-1.amazonaws.com/custom-management-service:latest
+          ports:
+            - containerPort: 3009
