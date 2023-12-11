@@ -120,7 +120,7 @@ resource "aws_route_table_association" "messaging_RT-IG-Association-a" {
     aws_vpc.messaging_vpc,
     aws_subnet.messaging_subnet_a,
     aws_subnet.messaging_subnet_b,
-    aws_route_table.messsaging_Public-Subnet-RT
+    aws_route_table.messaging_Public-Subnet-RT
   ]
 
 # Public Subnet ID
