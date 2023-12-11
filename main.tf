@@ -339,7 +339,7 @@ resource "aws_iam_role" "workernodes" {
 resource "aws_security_group" "eks_workers_sg" {
   name        = "eks-workers-sg"
   description = "Security group for EKS worker nodes"
-  vpc_id      = aws_vpc.your_vpc.id  # Replace "your_vpc" with the actual name or ID of your VPC
+  vpc_id      = aws_vpc.my_vpc.id  # Replace "your_vpc" with the actual name or ID of your VPC
 
   // Ingress rule for port 443
   ingress {
