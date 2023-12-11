@@ -337,7 +337,6 @@ resource "aws_iam_role" "workernodes" {
  }
 
 
-
 #create a nodegroup
 
 resource "aws_eks_node_group" "example" {
@@ -358,16 +357,10 @@ resource "aws_eks_node_group" "example" {
   capacity_type  = "ON_DEMAND"
   disk_size      = 30
 
-
-
   depends_on = [
     aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
     aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
     aws_eks_cluster.snappcoins-eks
-
-
   ]
 }
-
-
