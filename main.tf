@@ -10,7 +10,7 @@ resource "aws_vpc" "messaging_vpc" {
   enable_dns_support = true
   enable_dns_hostnames = true
   tags = {
-    Name = "my-vpc"
+    Name = "messaging-vpc"
   }
 }
 
@@ -19,7 +19,7 @@ resource "aws_vpc" "messaging_vpc" {
 # Create Subnets
 resource "aws_subnet" "messaging_subnet_a" {
 depends_on = [
-    aws_vpc.my_vpc
+    aws_vpc.messaging_vpc
   ]
   
   vpc_id                  = aws_vpc.messaging_vpc.id
