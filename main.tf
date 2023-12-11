@@ -364,13 +364,5 @@ resource "aws_eks_node_group" "example" {
     aws_eks_cluster.snappcoins-eks
   ]
 }
-# Adding security group inbound rules for HTTPS (port 443)
-resource "aws_security_group_rule" "node_group_https_ingress" {
-  security_group_id = aws_eks_node_group.example.node_group_default_security_group_ids[0]  # Use appropriate index if there are multiple security groups
-  type              = "ingress"
-  from_port         = 443
-  to_port           = 443
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]  # Adjust this to limit traffic to specific IPs if needed
-}
+
 
