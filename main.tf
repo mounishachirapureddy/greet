@@ -336,6 +336,19 @@ resource "aws_iam_role" "workernodes" {
   role    = aws_iam_role.workernodes.name
  }
 
+resource "aws_security_group" "eks_workers_sg" {
+  name        = "eks-workers-sg"
+  description = "Security group for EKS worker nodes"
+  vpc_id      = aws_vpc.your_vpc.id  # Replace "your_vpc" with the actual name or ID of your VPC
+
+  // Ingress rule for port 443
+  ingress {
+    from_port = 443
+    to_port   = 443
+    protocol  = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Allow traffic from any source (you may want to restrict this)
+  }
+}
 
 #create a nodegroup
 
@@ -357,11 +370,16 @@ resource "aws_eks_node_group" "example" {
   capacity_type  = "ON_DEMAND"
   disk_size      = 30
 
+ security_group_ids = [aws_security_group.eks_workers_sg.id] 
+
   depends_on = [
     aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
     aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
-    aws_eks_cluster.snappcoins-eks
+    aws_eks_cluster.snappcoins-eks,
+    aws_security_group.eks_workers_sg
+
+
   ]
 }
 
