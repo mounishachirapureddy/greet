@@ -1,0 +1,77 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: frontend-service
+spec:
+  hosts:
+  - frontend-service
+  http:
+  - route:
+    - destination:
+        host: frontend-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: greetings-manager-service 
+spec:
+  hosts:
+  - greetings-manager-service 
+  http:
+  - route:
+    - destination:
+        host: greetings-manager-service 
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: custom-management-service
+spec:
+  hosts:
+  - custom-management-service
+  http:
+  - route:
+    - destination:
+        host: custom-management-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: scheduler-service
+spec:
+  hosts:
+  - scheduler-service
+  http:
+  - route:
+    - destination:
+        host: scheduler-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: email-sender-service
+spec:
+  hosts:
+  - email-sender-service
+  http:
+  - route:
+    - destination:
+        host: email-sender-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: whatsapp-sender-service
+spec:
+  hosts:
+  - whatsapp-sender-service
+  http:
+  - route:
+    - destination:
+        host: whatsapp-sender-service
+        subset: v1
