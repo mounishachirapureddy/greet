@@ -10,5 +10,7 @@ RUN npm install --production
 
 COPY . .
 
+EXPOSE 3008
+
 CMD ["sh", "-c", "node index.js && npm start"]
 
