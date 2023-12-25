@@ -9,7 +9,7 @@ spec:
   selector:
     app: greetings-manager-service
   ports:
-    - port: 3000
+    - port: 3007
       name: http
 ---
 apiVersion: v1
@@ -47,4 +47,4 @@ spec:
         - name: greetings-manager-service
           image: 083118395813.dkr.ecr.ap-south-1.amazonaws.com/greetings-manager-service:latest
           ports:
-            - containerPort: 3000
+            - containerPort: 3007
