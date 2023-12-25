@@ -44,7 +44,7 @@ spec:
     spec:
       serviceAccountName: greetings-manager-serviceaccount
       containers:
-        - name: greetings-manager
+        - name: greetings-manager-service
           image: 083118395813.dkr.ecr.ap-south-1.amazonaws.com/greetings-manager-service:latest
           ports:
             - containerPort: 3000
