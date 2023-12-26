@@ -48,8 +48,8 @@ function VideoPage() {
         <iframe
           width="900"
           height="500"
-          //src="https://www.veed.io/view/dc7a4afe-7018-4179-be56-b24f7b01740f?panel=share"
-          //src="https://www.veed.io/view/6c156033-53a5-4f6c-ba5f-5485e411b700?panel=share"
+          src="https://www.veed.io/view/dc7a4afe-7018-4179-be56-b24f7b01740f?panel=share"
+          src="https://www.veed.io/view/6c156033-53a5-4f6c-ba5f-5485e411b700?panel=share"
           src="http://localhost:3009/api/getVideo"
           frameBorder="0"
           allowFullScreen
