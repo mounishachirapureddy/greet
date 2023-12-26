@@ -44,7 +44,7 @@ spec:
     spec:
       serviceAccountName: custom-management-serviceaccount
       containers:
-        - name: custom-management
+        - name: custom-management-service
           image: 083118395813.dkr.ecr.ap-south-1.amazonaws.com/custom-management-service:latest
           ports:
             - containerPort: 3009
