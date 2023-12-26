@@ -44,7 +44,7 @@ spec:
     spec:
       serviceAccountName: scheduler-serviceaccount
       containers:
-        - name: scheduler
+        - name: scheduler-service
           image: 083118395813.dkr.ecr.ap-south-1.amazonaws.com/scheduler-service:latest
           ports:
             - containerPort: 3008
