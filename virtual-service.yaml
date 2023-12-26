@@ -21,7 +21,7 @@ spec:
   gateways:
   - messaging-gateway
   hosts:
-  - '*'
+  - "a35aa8106631548999edb5d5731f034f-1793418561.ap-south-1.elb.amazonaws.com"
   http:
   - route:
     - destination:
