@@ -45,6 +45,6 @@ spec:
       serviceAccountName: whatsapp-sender-serviceaccount
       containers:
         - name: whatsapp-sender-service
-          image: 083118395813.dkr.ecr.ap-south-1.amazonaws.com/whatsapp-sender:latest
+          image: 083118395813.dkr.ecr.ap-south-1.amazonaws.com/whatsapp-sender-service:latest
           ports:
             - containerPort: 3010
