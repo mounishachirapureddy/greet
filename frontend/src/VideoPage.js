@@ -23,7 +23,7 @@ function VideoPage() {
     <div>
       <h1 align="center">Happy Birthday!</h1>
       <div className="video-wrapper">
-        <iframe
+        /*<iframe
           width="900"
           height="500"
           //src="https://www.veed.io/view/dc7a4afe-7018-4179-be56-b24f7b01740f?panel=share"
@@ -31,7 +31,8 @@ function VideoPage() {
           src="http://localhost:3009/api/getVideo"
           frameborder="0"
           allowfullscreen
-        ></iframe>
+        ></iframe>*/
+        <iframe title="Birthday Video" width="900" height="500" src="http://localhost:3009/api/getVideo" frameBorder="0" allowFullScreen />
       </div>
     </div>
   );
