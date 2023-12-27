@@ -25,7 +25,7 @@ kind: Deployment
 metadata:
   name: frontend-deployment
   labels:
-    app: frontend
+    app: frontend-service
     version: v1
 spec:
   replicas: 1  # Number of desired replicas
