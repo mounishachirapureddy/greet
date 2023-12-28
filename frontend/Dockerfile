@@ -1,4 +1,3 @@
-# Stage 1: Development stage
 FROM node:latest AS development
 ENV NODE_ENV=development
 WORKDIR /messaging/frontend
