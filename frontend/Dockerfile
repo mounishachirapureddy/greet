@@ -1,21 +1,17 @@
-# Use an official Node.js runtime as a base image
-FROM node:14
-
-# Set the working directory in the container
-WORKDIR /usr/src/app
-
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
-
-# Install app dependencies
+FROM node:latest AS development
+ENV NODE_ENV=development
+WORKDIR /messaging/frontend
+COPY ["package.json", "package-lock.json*", "./"]
 RUN npm install
 
-# Copy the rest of the application code
+# Stage 2: Production stage
+FROM node:latest AS production
+ENV NODE_ENV=production
+WORKDIR /messaging/frontend
+COPY --from=development /messaging/frontend/node_modules ./node_modules
 COPY . .
+RUN npm run build
 
-# Expose a port (if your application is running on a specific port)
 EXPOSE 3000
-
-# Define the command to run your application
 CMD ["npm", "start"]
 
