@@ -345,7 +345,7 @@ resource "null_resource" "install_istio" {
 
   provisioner "local-exec" {
     command = <<-EOT
-      aws eks update-kubeconfig --name qa-messaging-cluster --region ap-south-1
+      aws eks update-kubeconfig --name prod-messaging-cluster --region ap-south-1
       curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.20.1 TARGET_ARCH=x86_64 sh -
       cd istio-1.20.1
       export PATH=$PWD/bin:$PATH
