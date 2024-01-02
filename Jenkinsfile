@@ -45,7 +45,7 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                sh 'terraform apply -var="environment_name=qa" -auto-approve'
+                sh 'terraform apply -var="environment_name=prod" -auto-approve'
             }
         }
         
@@ -118,38 +118,38 @@ pipeline {
                 sh 'kubectl apply -f virtual-service.yaml'
                 dir('frontend') {
                     sh "export KUBECONFIG=/new/directory/path/config"
-                    sh "aws eks update-kubeconfig --name qa-messaging-cluster --region ap-south-1"
+                    sh "aws eks update-kubeconfig --name prod-messaging-cluster --region ap-south-1"
                     sh "kubectl apply -f frontend.yaml"
                     sh "kubectl set image deployments/frontend-deployment frontend-service=${ECR_REGISTRY}/frontend:${VERSION}-${BUILD_NUMBER}" 
                 }
                 dir('backend/Custom-Management') { 
                     sh "export KUBECONFIG=/new/directory/path/config"
-                    sh "aws eks update-kubeconfig --name qa-messaging-cluster --region ap-south-1"
+                    sh "aws eks update-kubeconfig --name prod-messaging-cluster --region ap-south-1"
                     sh "kubectl apply -f  custom-management.yaml"
                     sh "kubectl set image deployments/custom-management-deployment custom-management-service=${ECR_REGISTRY}/custom-management:${VERSION}-${BUILD_NUMBER}" 
                 }
                 dir('backend/Email-sender') {
                     sh "export KUBECONFIG=/new/directory/path/config"
-                    sh "aws eks update-kubeconfig --name qa-messaging-cluster --region ap-south-1"
+                    sh "aws eks update-kubeconfig --name prod-messaging-cluster --region ap-south-1"
                     sh "kubectl apply -f  email-sender.yaml"
                     sh "kubectl set image deployments/email-sender-deployment email-sender-service=${ECR_REGISTRY}/email-sender:${VERSION}-${BUILD_NUMBER}"
                 }
                 dir('backend/Scheduler') {
                     sh "export KUBECONFIG=/new/directory/path/config"
-                    sh "aws eks update-kubeconfig --name qa-messaging-cluster --region ap-south-1"
+                    sh "aws eks update-kubeconfig --name prod-messaging-cluster --region ap-south-1"
                     sh "kubectl apply -f scheduler.yaml"
                     sh "kubectl set image deployments/scheduler-deployment scheduler-service=${ECR_REGISTRY}/scheduler:${VERSION}-${BUILD_NUMBER}"   
                 }
                 dir('backend/greetings-manager') {
                     sh "export KUBECONFIG=/new/directory/path/config"
-                    sh "aws eks update-kubeconfig --name qa-messaging-cluster --region ap-south-1"
+                    sh "aws eks update-kubeconfig --name prod-messaging-cluster --region ap-south-1"
                     sh "kubectl apply -f greetings-manager.yaml"
                     sh "kubectl set image deployments/greetings-manager-deployment greetings-manager-service=${ECR_REGISTRY}/greetings-manager:${VERSION}-${BUILD_NUMBER}"
 
                 }
                 dir('backend/whatsapp-sender') {
                     sh "export KUBECONFIG=/new/directory/path/config"
-                    sh "aws eks update-kubeconfig --name qa-messaging-cluster --region ap-south-1"
+                    sh "aws eks update-kubeconfig --name prod-messaging-cluster --region ap-south-1"
                     sh "kubectl apply -f whatsapp-sender.yaml"
                     sh "kubectl set image deployments/whatsapp-sender-deployment whatsapp-sender-service=${ECR_REGISTRY}/whatsapp-sender:${VERSION}-${BUILD_NUMBER}"                  
                 }
@@ -182,7 +182,7 @@ pipeline {
                     )
 
                     if (shouldTriggerNextJob) {
-                        build job: 'prod', wait: false
+                        build job: 'dev', wait: false
                     } else {
                         echo 'Not triggering the next job.'
                     }
@@ -205,7 +205,7 @@ pipeline {
                 if (userInput) {
                     
                     // If user confirms, destroy Terraform resources
-                    sh 'terraform destroy -var="environment_name=qa" --auto-approve'
+                    sh 'terraform destroy -var="environment_name=prod" --auto-approve'
                                         //echo 'Sleeping for 25 minutes...'
                     //sleep(time: 25 * 60)  // 25 minutes in seconds
 
