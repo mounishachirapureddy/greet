@@ -1,4 +1,9 @@
 pipeline {
+    options {
+    disableConcurrentBuilds()
+    buildDiscarder(logRotator(numToKeepStr: '4'))
+    }
+
     agent any
 
     environment {    
