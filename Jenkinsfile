@@ -22,8 +22,7 @@ pipeline {
         }
         stage('Terraform Init') {
             steps {
-               sh 'terraform init'                       
-
+               sh 'terraform init'                      
             }
         }
 
@@ -46,12 +45,10 @@ pipeline {
         }
         
        
- stage('Initialize Variables') {
+       stage('Initialize Variables') {
             steps {
                 script {
                     DOCKER_IMAGE_NAMES = ['frontend', 'custom-management', 'email-sender', 'scheduler', 'greetings-manager' , 'whatsapp-sender']
-                  
-
                 }
             }
         }
@@ -105,7 +102,7 @@ pipeline {
                     sh "docker tag ${imageName}:${VERSION}-${BUILD_NUMBER} ${ECR_REGISTRY}/${imageName}:${VERSION}-${BUILD_NUMBER}"
                     sh "docker push ${ECR_REGISTRY}/${imageName}:${VERSION}-${BUILD_NUMBER}"
                 }
-                    }
+                }
                 }
 
             }
