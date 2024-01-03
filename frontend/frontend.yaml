@@ -68,10 +68,10 @@ spec:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 80
+        averageUtilization: "80"
   - type: Resource
     resource:
       name: memory
       target:
         type: AverageValue
-        averageValue: 100Mi
+        averageValue: "100Mi"
