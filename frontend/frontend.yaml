@@ -67,16 +67,12 @@ spec:
     name: frontend-deployment
   minReplicas: 1
   maxReplicas: 5
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: "80"
-  - type: Resource
-    resource:
-      name: memory
-      target:
-        type: AverageValue
-        averageValue: "100Mi"
+  resourceMetrics:
+  - name: cpu
+    target:
+      type: Utilization
+      averageUtilization: 80
+  - name: memory
+    target:
+      type: AverageValue
+      averageValue: 100Mi
