@@ -52,11 +52,9 @@ spec:
             - containerPort: 3000
           resources:
             requests:
-              cpu: "100m"
-              memory: "128Mi"
+              cpu: "50m"
             limits:
-              cpu: "500m"
-              memory: "256Mi"
+              cpu: "500m"    
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -76,9 +74,4 @@ spec:
       target:
         type: Utilization
         averageUtilization: 80
-  - type: Resource
-    resource:
-      name: memory
-      target:
-        type: AverageValue
-        averageValue: 100
+  
