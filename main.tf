@@ -353,21 +353,37 @@ resource "null_resource" "install_istio" {
     EOT
   }
 }
-resource "aws_cloudwatch_metric_alarm" "example" {
-  alarm_name          = "example"
+
+
+
+
+
+
+
+
+# Creating the AWS CLoudwatch Alarm that will autoscale the AWS EC2 instance based on CPU utilization.
+resource "aws_cloudwatch_metric_alarm" "web_cpu_alarm_up" {
+# defining the name of AWS cloudwatch alarm
+  alarm_name = "web_cpu_alarm_up"
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "2"
-  metric_name         = "CPUUtilization"
-  namespace           = "AWS/EC2"
-  period              = "60"
-  statistic           = "Average"
-  threshold           = "80"
-  alarm_description   = "This metric controls instance scale up and down"
-  alarm_actions       = [aws_autoscaling_policy.example.arn]
-  dimensions = {
-    AutoScalingGroupName = "${aws_autoscaling_group.example.name}"
+  evaluation_periods = "2"
+# Defining the metric_name according to which scaling will happen (based on CPU) 
+  metric_name = "CPUUtilization"
+# The namespace for the alarm's associated metric
+  namespace = "AWS/EC2"
+# After AWS Cloudwatch Alarm is triggered, it will wait for 60 seconds and then autoscales
+  period = "60"
+  statistic = "Average"
+# CPU Utilization threshold is set to 10 percent
+  threshold = "10"
+  alarm_actions = [
+        "${aws_autoscaling_policy.mygroup_policy.arn}"
+    ]
+dimensions = {
+    AutoScalingGroupName = "${aws_autoscaling_group.mygroup.name}"
   }
 }
+
 
 
 # Creating the autoscaling group within us-east-1a availability zone
@@ -402,26 +418,4 @@ resource "aws_autoscaling_policy" "mygroup_policy" {
 # The amount of time (seconds) after a scaling completes and the next scaling starts.
   cooldown               = 300
   autoscaling_group_name = aws_autoscaling_group.mygroup.name
-}
-# Creating the AWS CLoudwatch Alarm that will autoscale the AWS EC2 instance based on CPU utilization.
-resource "aws_cloudwatch_metric_alarm" "web_cpu_alarm_up" {
-# defining the name of AWS cloudwatch alarm
-  alarm_name = "web_cpu_alarm_up"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods = "2"
-# Defining the metric_name according to which scaling will happen (based on CPU) 
-  metric_name = "CPUUtilization"
-# The namespace for the alarm's associated metric
-  namespace = "AWS/EC2"
-# After AWS Cloudwatch Alarm is triggered, it will wait for 60 seconds and then autoscales
-  period = "60"
-  statistic = "Average"
-# CPU Utilization threshold is set to 10 percent
-  threshold = "10"
-  alarm_actions = [
-        "${aws_autoscaling_policy.mygroup_policy.arn}"
-    ]
-dimensions = {
-    AutoScalingGroupName = "${aws_autoscaling_group.mygroup.name}"
-  }
 }
