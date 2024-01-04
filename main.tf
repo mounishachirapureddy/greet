@@ -356,7 +356,6 @@ resource "null_resource" "install_istio" {
 
 
 
-
 resource "aws_cloudwatch_metric_alarm" "eks_cpu_alarm" {
   alarm_name          = "eks-cpu-utilization-alarm"
   comparison_operator = "GreaterThanOrEqualToThreshold"
@@ -370,9 +369,9 @@ resource "aws_cloudwatch_metric_alarm" "eks_cpu_alarm" {
   actions_enabled     = true
 
   dimensions = {
-    ClusterName = aws_eks_cluster.my_cluster.name,
-    AutoScalingGroupName = aws_eks_node_group.my_node_group.node_group_name
+    ClusterName          = aws_eks_cluster.messaging-eks.name,  # Replace with your EKS cluster name
+    AutoScalingGroupName = aws_eks_node_group.example.node_group_name  # Replace with your EKS node group name
   }
 
-  alarm_actions = [aws_eks_node_group.my_node_group.arn]
+  alarm_actions = [aws_eks_node_group.example.arn]  # Replace with your EKS node group ARN
 }
