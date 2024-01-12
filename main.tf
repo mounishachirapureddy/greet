@@ -364,22 +364,3 @@ resource "null_resource" "install_istio" {
 
 
 
-resource "aws_cloudwatch_metric_alarm" "eks_cpu_alarm" {
-  alarm_name          = "eks-cpu-utilization-alarm"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = 2
-  metric_name         = "CPUUtilization"
-  namespace           = "AWS/EKS"
-  period              = 300
-  statistic           = "Average"
-  threshold           = 75  # Adjust as needed
-  alarm_description   = "Alarm for high CPU utilization in the EKS node group"
-  actions_enabled     = true
-
-  dimensions = {
-    ClusterName          = aws_eks_cluster.messaging-eks.name,  # Replace with your EKS cluster name
-    AutoScalingGroupName = aws_eks_node_group.example.node_group_name  # Replace with your EKS node group name
-  }
-
-  alarm_actions = [aws_eks_node_group.example.arn]  # Replace with your EKS node group ARN
-}
