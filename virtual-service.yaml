@@ -1,32 +1,113 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: messaging-gateway
+  name: my-gateway
 spec:
   selector:
     istio: ingressgateway
   servers:
   - hosts:
-    - "*"           
+    - "*.reachmylifeline.com"
     port:
       number: 80
       name: http
       protocol: HTTP
-                                                                                                                                                                                                          
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: messaging-virtualservice
+  name: frontend
 spec:
   hosts:
-    - "*"
+    - "frontend-service.reachmylifeline.com"
   gateways:
-    - messaging-gateway
+    - my-gateway
   http:
-    - route:
-      - destination:
-          host: frontend-service
+    -  route:
+       - destination:
+          host: frontend-service.default.svc.cluster.local
           port:
             number: 3000
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: custom-management
+spec:
+  hosts:
+    - "custom-management-service.reachmylifeline.com"
+  gateways:
+    - my-gateway
+  http:
+    -  route:
+       - destination:
+          host: custom-management-service.default.svc.cluster.local
+          port:
+            number: 3009
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: email-sender
+spec:
+  hosts:
+    - "email-sender-service.reachmylifeline.com"
+  gateways:
+    - my-gateway
+  http:
+    -  route:
+       - destination:
+          host: email-sender-service.default.svc.cluster.local
+          port:
+            number: 3006
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: greetings-manager
+spec:
+  hosts:
+    - "greetings-manager-service.reachmylifeline.com"
+  gateways:
+    - my-gateway
+  http:
+    -  route:
+       - destination:
+          host: greetings-manager-service.default.svc.cluster.local
+          port:
+            number: 3007
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: scheduler
+spec:
+  hosts:
+    - "scheduler-service.reachmylifeline.com"
+  gateways:
+    - my-gateway
+  http:
+    -  route:
+       - destination:
+          host: scheduler-service.default.svc.cluster.local
+          port:
+            number: 3008
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: whatsapp-sender
+spec:
+  hosts:
+    - "whatsapp-sender-service.reachmylifeline.com"
+  gateways:
+    - my-gateway
+  http:
+    -  route:
+       - destination:
+          host: whatsapp-sender-service.default.svc.cluster.local
+          port:
+            number: 3010
+
+        
 
