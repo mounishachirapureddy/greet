@@ -358,6 +358,9 @@ resource "null_resource" "install_istio" {
       cd istio-1.20.1
       export PATH=$PWD/bin:$PATH
       istioctl install --set profile=demo -y
+      kubectl create ns dev	
+      kubectl config set-context --current --namespace=dev
+      kubectl label namespace dev istio-injection=enabled
     EOT
   }
 }
